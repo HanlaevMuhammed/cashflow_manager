@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Категория{% endblock %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 600px;">
+  <div class="card-body">
+    <h5 class="card-title mb-4">{% if object %}Редактировать категорию{% else %}Добавить категорию{% endif %}</h5>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'cashflow:manage_categories' %}" class="btn btn-secondary">Отмена</a>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

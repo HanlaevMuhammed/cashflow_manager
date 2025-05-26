@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">Управление статусами, типами, категориями и подкатегориями</h1>
+
+  <div class="mb-5">
+    <h2>Добавить категорию</h2>
+    <form method="post" novalidate class="mb-3">
+      {% csrf_token %}
+      {{ cat_form.as_p }}
+      <button type="submit" name="add_category" class="btn btn-primary">Добавить категорию</button>
+    </form>
+  </div>
+
+  <hr>
+
+  <div class="mb-5">
+    <h2>Добавить подкатегорию</h2>
+    <form method="post" novalidate class="mb-3">
+      {% csrf_token %}
+      {{ subcat_form.as_p }}
+      <button type="submit" name="add_subcategory" class="btn btn-primary">Добавить подкатегорию</button>
+    </form>
+  </div>
+
+  <hr>
+
+  <div class="mb-5">
+    <h2>Добавить тип</h2>
+    <form method="post" novalidate class="mb-3">
+      {% csrf_token %}
+      {{ type_form.as_p }}
+      <button type="submit" name="add_type" class="btn btn-primary">Добавить тип</button>
+    </form>
+  </div>
+
+  <hr>
+
+  <div class="mb-5">
+    <h2>Добавить статус</h2>
+    <form method="post" novalidate class="mb-3">
+      {% csrf_token %}
+      {{ status_form.as_p }}
+      <button type="submit" name="add_status" class="btn btn-primary">Добавить статус</button>
+    </form>
+  </div>
+
+  <hr>
+
+  <div class="mb-4">
+    <h2>Текущие категории</h2>
+    <ul class="list-group">
+      {% for c in categories %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ c.name }}
+        <span>
+          <a href="{% url 'cashflow:category_edit' c.pk %}" class="btn btn-sm btn-outline-secondary me-2">Редактировать</a>
+          <a href="{% url 'cashflow:category_delete' c.pk %}" class="btn btn-sm btn-outline-danger"
+             onclick="return confirm('Удалить категорию {{ c.name }}?');">Удалить</a>
+        </span>
+      </li>
+      {% empty %}
+      <li class="list-group-item text-muted">Категорий пока нет</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="mb-4">
+    <h2>Текущие подкатегории</h2>
+    <ul class="list-group">
+      {% for sc in subcategories %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ sc.name }} <small class="text-muted">(Категория: {{ sc.category.name }})</small>
+        <span>
+          <a href="{% url 'cashflow:subcategory_edit' sc.pk %}" class="btn btn-sm btn-outline-secondary me-2">Редактировать</a>
+          <a href="{% url 'cashflow:subcategory_delete' sc.pk %}" class="btn btn-sm btn-outline-danger"
+             onclick="return confirm('Удалить подкатегорию {{ sc.name }}?');">Удалить</a>
+        </span>
+      </li>
+      {% empty %}
+      <li class="list-group-item text-muted">Подкатегорий пока нет</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="mb-4">
+    <h2>Текущие типы</h2>
+    <ul class="list-group">
+      {% for t in types %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ t.name }}
+        <span>
+          <a href="{% url 'cashflow:type_edit' t.pk %}" class="btn btn-sm btn-outline-secondary me-2">Редактировать</a>
+          <a href="{% url 'cashflow:type_delete' t.pk %}" class="btn btn-sm btn-outline-danger"
+             onclick="return confirm('Удалить тип {{ t.name }}?');">Удалить</a>
+        </span>
+      </li>
+      {% empty %}
+      <li class="list-group-item text-muted">Типов пока нет</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="mb-4">
+    <h2>Текущие статусы</h2>
+    <ul class="list-group">
+      {% for s in statuses %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ s.name }}
+        <span>
+          <a href="{% url 'cashflow:status_edit' s.pk %}" class="btn btn-sm btn-outline-secondary me-2">Редактировать</a>
+          <a href="{% url 'cashflow:status_delete' s.pk %}" class="btn btn-sm btn-outline-danger"
+             onclick="return confirm('Удалить статус {{ s.name }}?');">Удалить</a>
+        </span>
+      </li>
+      {% empty %}
+      <li class="list-group-item text-muted">Статусов пока нет</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <a href="{% url 'cashflow:record_list' %}" class="btn btn-secondary mt-3">Вернуться к списку записей</a>
+</div>
+{% endblock %}
